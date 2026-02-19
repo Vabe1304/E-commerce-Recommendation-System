@@ -129,8 +129,4 @@ This enables behavioral segmentation and identification of latent engagement pat
 - PySpark (MLlib)
 - K-Means Clustering
 
-Matplotlib / Seaborn
 
-PySpark (MLlib)
-
-K-Means clustering
