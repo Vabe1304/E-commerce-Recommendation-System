@@ -1,127 +1,133 @@
-# E-commerce-Recommendation-System
-This project implements an end-to-end recommendation pipeline using the Kaggle dataset “Ecommerce Events History in Electronics Store”. It integrates exploratory analysis, feature engineering, content-based similarity modeling, and unsupervised learning to extract behavioral insights and generate product recommendations.
+# E-commerce Recommendation System
 
-Dataset source: Kaggle
-Distributed processing framework: Apache Spark (PySpark MLlib)
+## Overview
+This project implements an end-to-end recommendation pipeline using the Kaggle dataset  
+**“Ecommerce Events History in Electronics Store.”**
 
-🎯 Problem Statement
+It integrates:
 
-Modern digital platforms rely on recommendation systems to improve personalization, conversion rates, and retention.
+- Exploratory Data Analysis (EDA)
+- Feature Engineering
+- Content-Based Similarity Modeling
+- Unsupervised Learning (Clustering)
 
-This project aims to:
+The goal is to extract behavioral insights and generate scalable product recommendations.
 
-Analyze user interaction patterns (view → cart → purchase)
+---
 
-Identify high-performing products and brands
+## Dataset & Infrastructure
 
-Engineer scalable product representations
+**Dataset Source:** Kaggle  
+**Distributed Framework:** Apache Spark (PySpark MLlib)
 
-Compute similarity-based recommendations
+---
 
-Segment behavioral interaction patterns using clustering
+## 🎯 Problem Statement
 
-📦 Dataset
+Modern digital platforms rely on recommendation systems to improve:
 
-The dataset contains event-level logs from an electronics e-commerce store, including:
+- Personalization
+- Conversion rates
+- User retention
 
-event_type (view, cart, purchase)
+This project focuses on:
 
-product_id
+- Analyzing user interaction patterns (view → cart → purchase)
+- Identifying high-performing products and brands
+- Engineering scalable product representations
+- Computing similarity-based recommendations
+- Segmenting behavioral interaction patterns using clustering
 
-category
+---
 
-brand
+## 📦 Dataset Description
 
-price
+The dataset contains event-level logs from an electronics e-commerce store:
 
-user_id
+- `event_type` (view, cart, purchase)
+- `product_id`
+- `category`
+- `brand`
+- `price`
+- `user_id`
+- `event_time`
 
-event_time
+To reduce sparsity and improve reliability, users with fewer than **3 interactions** were filtered out.
 
-To reduce sparsity and improve modeling reliability, users with fewer than three interactions were filtered out.
+---
 
-🧹 Data Engineering & Preprocessing
-Cleaning & Validation
+## 🧹 Data Engineering & Preprocessing
 
-Removal of null values
+### Cleaning & Validation
+- Removal of null values
+- Standardization of categorical variables
+- Memory optimization
+- User interaction threshold filtering
 
-Standardization of categorical variables
+### Feature Engineering (PySpark ML)
+- `StringIndexer` → categorical indexing
+- `OneHotEncoder` → encoding category, brand, and item
+- `MinMaxScaler` → price normalization
+- `VectorAssembler` → dense feature vector construction
 
-Memory optimization
+Products are aggregated at the `product_id` level using:
+- Most frequent categorical attributes
+- Average price
 
-User interaction threshold filtering
+---
 
-Feature Engineering (PySpark ML)
+## 🤖 Content-Based Recommendation
 
-StringIndexer for categorical indexing
+Each product is represented by a feature vector composed of:
 
-OneHotEncoder for category, brand, and item encoding
+- Encoded category
+- Encoded brand
+- Normalized average price
 
-MinMaxScaler for price normalization
-
-VectorAssembler to construct dense feature vectors
-
-Products are aggregated at the product_id level using:
-
-Most frequent categorical attributes
-
-Average price
-
-🤖 Content-Based Recommendation
-
-Each product is represented as a feature vector composed of:
-
-Encoded category
-
-Encoded brand
-
-Normalized average price
-
-Cosine similarity is computed between a target product and the product space to retrieve similar items.
+Cosine similarity is computed between a target product and all other products to retrieve similar items.
 
 Optional filtering excludes:
+- The target product itself
+- Products from the same brand (to increase diversity)
 
-The target product itself
+This results in a scalable content-based recommendation engine.
 
-Products from the same brand (to increase diversity)
+---
 
-This produces a scalable content-based recommendation engine.
-
-📊 Behavioral Segmentation (Unsupervised Learning)
+## 📊 Behavioral Segmentation (Unsupervised Learning)
 
 A K-Means clustering model was trained using:
 
-Encoded categorical features
+- Encoded categorical features
+- Scaled numerical features (price, interaction day)
 
-Scaled numerical features (price, interaction day)
+**Configuration:**
+- `k = 13`
+- Evaluation metric: Silhouette Score
 
-Configuration:
+This enables behavioral segmentation and identification of latent engagement patterns.
 
-k = 13
+---
 
-Evaluated using Silhouette Score
+## 📁 Key Outputs
 
-This enables segmentation of interaction behavior and identification of latent engagement structures.
+- Top-selling products analysis
+- Purchase funnel validation
+- Brand-level performance insights
+- Similarity-based product recommendations
+- Cluster assignments
+- Exportable CSV files for BI dashboards (Looker Studio compatible)
 
-📁 Key Outputs
+---
 
-Top-selling products analysis
+## 🛠 Technical Stack
 
-Purchase funnel validation
-
-Brand-level performance insights
-
-Similarity-based product recommendations
-
-Cluster assignments for behavioral segmentation
-
-Exportable CSV files for BI dashboards (Looker Studio compatible)
-
-🛠 Technical Stack
-
-Python
-
-Pandas
+- Python
+- Pandas
+- Matplotlib
+- Seaborn
+- PySpark (MLlib)
+- K-Means Clustering
 
 Matplotlib / Seaborn
 
